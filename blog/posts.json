@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "Draft Post",
+    "url": "/blog/2025-10-18-draft/",
+    "date": "2025-10-18",
+    "hidden": true,
+    "tags": ["draft", "testing"],
+    "description": "Still in progress, not public yet."
+  },
+  {
+    "id": 2,
+    "title": "Blog Template",
+    "url": "/blog/template/",
+    "date": "2025-10-20",
+    "hidden": true,
+    "tags": ["template", "writing"],
+    "description": "A reusable base for new posts."
+  }
+]
