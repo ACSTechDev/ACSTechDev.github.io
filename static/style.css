@@ -157,3 +157,175 @@ article hr {
   background: #30363d;
   margin: 2rem 0;
 }
+
+/* Contact Form */
+.contact-list li {
+  margin-bottom: 0.5em;
+}
+
+.contact-form label {
+  display: block;
+  margin-top: 1em;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.25em;
+}
+
+/* Shared bubble style */
+/* Base bubble stays centered for general layout */
+.bubble {
+  margin: 2rem 0;
+  max-width: 75%;
+}
+
+/* Left bubbles align to the left side */
+.bubble-left {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* Right bubbles align to the right side */
+.bubble-right {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* Optional: visually emphasize the divide between left/right */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* On larger screens, give spacing between alternating sides */
+@media (min-width: 900px) {
+  .bubble-left {
+    align-self: flex-start;
+  }
+
+  .bubble-right {
+    align-self: flex-end;
+  }
+}
+
+/* Keep your responsive mobile rule (centered layout) */
+@media (max-width: 700px) {
+  .bubble {
+    max-width: 90%;
+    margin: 1.5rem auto;
+  }
+
+  .bubble-left,
+  .bubble-right {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .bubble-left::after,
+  .bubble-right::after {
+    left: 30px;
+    right: auto;
+  }
+}
+
+
+#site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* keep it above everything else */
+  background-color: #0d1117; /* match your site’s dark theme */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); /* optional: nice depth effect */
+}
+main {
+  padding-top: 6rem; /* adjust based on header height */
+}
+
+main {
+  text-align: left;
+  max-width: 700px;
+  margin: 6rem auto 3rem; /* centers the column itself, not the text */
+  padding: 0 1rem;
+}
+
+main h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #58a6ff;
+}
+
+main p {
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  color: #c9d1d9;
+}
+
+/* Contact list cleanup */
+.contact-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.contact-list li {
+  margin-bottom: 0.75rem;
+}
+
+.contact-list a {
+  color: #79c0ff;
+  text-decoration: none;
+}
+
+.contact-list a:hover {
+  text-decoration: underline;
+}
+
+/* Contact form layout */
+.contact-form {
+  margin-top: 2.5rem;
+}
+
+.contact-form h2 {
+  margin-bottom: 1rem;
+  color: #79c0ff;
+}
+
+.contact-form label {
+  display: block;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 0.75rem;
+  color: #e6edf3;
+  font-size: 1rem;
+}
+
+.contact-form button {
+  margin-top: 1.5rem;
+  background-color: #0d6efd;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.contact-form button:hover {
+  background-color: #0b5ed7;
+}
+
