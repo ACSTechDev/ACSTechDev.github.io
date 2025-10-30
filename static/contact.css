@@ -1,0 +1,149 @@
+/* ------------------------------
+   Base Body and Layout
+--------------------------------*/
+body {
+  background-color: #0d1117;
+  color: #e6edf3;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main.container {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+  flex-grow: 1;
+}
+
+/* ------------------------------
+   Header
+--------------------------------*/
+#site-header {
+  width: 100%;
+  background-color: #0d1117; /* fallback dark color */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  height: 4rem; /* adjust if your header content is taller */
+}
+
+/* Add padding to main to avoid overlap */
+main {
+  padding-top: 6rem; /* matches header height */
+}
+
+/* ------------------------------
+   Headings
+--------------------------------*/
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #79c0ff;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* ------------------------------
+   Text and Links
+--------------------------------*/
+p {
+  margin: 1rem 0;
+}
+
+a {
+  color: #58a6ff;
+  text-decoration: none;
+  border-bottom: 1px dashed #58a6ff;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+a:hover {
+  color: #79c0ff;
+  border-color: #79c0ff;
+}
+
+/* ------------------------------
+   Contact List
+--------------------------------*/
+.contact-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 1rem 0;
+}
+
+.contact-list li {
+  margin-bottom: 0.5rem;
+}
+
+/* ------------------------------
+   Contact Form
+--------------------------------*/
+.contact-form label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border: 1px solid #30363d;
+  border-radius: 0.5rem;
+  background-color: #161b22;
+  color: #c9d1d9;
+}
+
+.contact-form button {
+  margin-top: 1rem;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #0d6efd;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.contact-form button:hover {
+  background-color: #0555c5;
+}
+
+/* ------------------------------
+   Footer
+--------------------------------*/
+#site-footer {
+  text-align: center;
+  padding: 1.5rem 0;
+  margin-top: auto;
+  color: #c9d1d9;
+  border-top: 1px solid #30363d;
+}
+
+/* ------------------------------
+   Responsive Adjustments
+--------------------------------*/
+@media (max-width: 700px) {
+  main.container {
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+}

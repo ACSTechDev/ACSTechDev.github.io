@@ -20,12 +20,19 @@ main.flex-grow-1 {
 /* ------------------------------
    Header
 --------------------------------*/
-header {
-  background: linear-gradient(135deg, #0d6efd, #6610f2);
-  color: white;
-  padding: 4rem 2rem;
-  border-radius: 0 0 1rem 1rem;
-  text-align: center;
+#site-header {
+  width: 100%;
+  background-color: #0d1117; /* fallback dark color */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  height: 4rem; /* adjust if your header content is taller */
+}
+
+/* Add padding to main to avoid overlap */
+main {
+  padding-top: 6rem; /* matches header height */
 }
 
 header h1 {
