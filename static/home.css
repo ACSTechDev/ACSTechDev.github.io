@@ -1,0 +1,166 @@
+/* ------------------------------
+   Base Body and Layout
+--------------------------------*/
+body {
+  background-color: #0d1117;
+  color: #e6edf3;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  padding: 3rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* ------------------------------
+   Header
+--------------------------------*/
+#site-header {
+  width: 100%;
+  background-color: #0d1117; /* fallback dark color */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  height: 4rem; /* adjust if your header content is taller */
+}
+
+/* Add padding to main to avoid overlap */
+main {
+  padding-top: 6rem; /* matches header height */
+}
+
+/* ------------------------------
+   Footer
+--------------------------------*/
+#site-footer {
+  text-align: center;
+  padding: 1.5rem 0;
+  margin-top: auto;
+  color: #c9d1d9;
+}
+
+/* ------------------------------
+   Bubble Articles
+--------------------------------*/
+.bubble {
+  position: relative;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  margin: 2rem 0;
+  color: #c9d1d9;
+  max-width: 75%;
+  line-height: 1.7;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Left-aligned bubble */
+.bubble-left {
+  margin-left: 0;
+  margin-right: auto;
+  border-top-left-radius: 0.5rem;
+}
+
+/* Right-aligned bubble */
+.bubble-right {
+  margin-left: auto;
+  margin-right: 0;
+  border-top-right-radius: 0.5rem;
+}
+
+/* Tail for left bubbles */
+.bubble-left::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 40px;
+  border-width: 12px 12px 0;
+  border-style: solid;
+  border-color: #161b22 transparent transparent transparent;
+  filter: drop-shadow(0 -1px 0 #30363d);
+}
+
+/* Tail for right bubbles */
+.bubble-right::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  right: 40px;
+  border-width: 12px 12px 0;
+  border-style: solid;
+  border-color: #161b22 transparent transparent transparent;
+  filter: drop-shadow(0 -1px 0 #30363d);
+}
+
+/* Hover lift for depth */
+.bubble:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 700px) {
+  .bubble {
+    max-width: 90%;
+    margin: 1.5rem auto;
+  }
+
+  .bubble-left,
+  .bubble-right {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .bubble-left::after,
+  .bubble-right::after {
+    left: 30px;
+    right: auto;
+  }
+
+  main {
+    padding-top: 5rem;
+  }
+}
+
+/* ------------------------------
+   Article Headings
+--------------------------------*/
+article h1, article h2, article h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  color: #58a6ff;
+}
+
+article h2 {
+  color: #79c0ff;
+}
+
+article h3 {
+  color: #9ecbff;
+}
+
+/* Paragraphs */
+article p {
+  margin: 1rem 0;
+  color: #c9d1d9;
+}
+
+/* Lists */
+article ul {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+article li {
+  margin-bottom: 0.5rem;
+}
