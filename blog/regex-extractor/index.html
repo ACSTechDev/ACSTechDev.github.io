@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/acstech_favicon_angular_acs_v2.ico" sizes="any"><title>Regex Link Extractor | ACSTechnology</title><link rel="stylesheet" href="/_astro/BaseLayout.CmXLcAZX.css">
+<style>.blog-hero{background:linear-gradient(135deg,#0d6efd,#6610f2);margin-bottom:2rem;padding-left:1rem;padding-right:1rem}.blog-meta{color:#ffffffc7}.blog-description{max-width:760px;color:#ffffffe6}.blog-article-wrap{max-width:900px;margin:0 auto;padding:0 1rem 3rem}.blog-article{background-color:#161b22;border:1px solid #30363d;border-radius:1.25rem;padding:2rem;color:#c9d1d9;line-height:1.75;box-shadow:0 8px 20px #00000059}.blog-article p{margin:1rem 0}.blog-article h2,.blog-article h3,.blog-article h4{margin-top:2rem;margin-bottom:1rem;color:#79c0ff}.blog-article a{color:#58a6ff}.blog-article pre{background:#0d1117;border:1px solid #30363d;border-radius:.75rem;padding:1rem;overflow-x:auto}.blog-article code{font-family:Consolas,Monaco,Courier New,monospace}.blog-article blockquote{margin:1.5rem 0;padding-left:1rem;border-left:3px solid #58a6ff;color:#e6edf3}.blog-article img{max-width:100%;height:auto;border-radius:.75rem}.blog-article ul,.blog-article ol{padding-left:1.5rem;margin:1rem 0}.blog-list-wrap{max-width:900px;margin:0 auto;padding:0 1rem 3rem}.blog-list-card{background-color:#161b22;border:1px solid #30363d;border-radius:1rem;padding:1.25rem 1.5rem;margin-bottom:1rem;box-shadow:0 6px 18px #00000040}.blog-list-card h2,.blog-list-card h3{margin-top:0;margin-bottom:.5rem}.blog-list-card p{margin-bottom:.5rem}.blog-list-meta{color:#8b949e;font-size:.95rem}@media(max-width:700px){.blog-article{padding:1.25rem}.blog-hero{padding-top:4rem;padding-bottom:3rem}}
+</style></head> <body class="bg-dark text-light d-flex flex-column min-vh-100"> <header id="site-header"> <nav class="navbar navbar-expand-md bg-body py-3" data-bs-theme="dark"> <div class="container"> <a class="navbar-brand d-flex align-items-center" href="/"> <span>ACSTechnology</span> </a> <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navcol-1" aria-controls="navcol-1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button> <div class="collapse navbar-collapse" id="navcol-1"> <ul class="navbar-nav ms-auto"> <li class="nav-item"><a class="nav-link" href="/about/">About</a></li> <li class="nav-item"><a class="nav-link" href="/blog/">The Lab</a></li> <li class="nav-item"><a class="nav-link" href="/projects/">Projects</a></li> <li class="nav-item"><a class="nav-link" href="/contact/">Contact</a></li> </ul> </div> </div> </nav> </header> <main>  <header class="text-center py-5 bg-gradient rounded-bottom blog-hero"> <h1 class="display-4 fw-bold mb-2">Regex Link Extractor</h1> <p class="blog-meta mb-2"> <time datetime="2026-04-27T00:00:00.000Z">April 26, 2026</time>  </p> <p class="blog-description mx-auto">A lightweight Chrome extension for extracting links, images, and videos from any page using regex filters. Built for manual browsing and bulk collection — with a handy side effect of feeding clean data into LLM workflows. This article walks through the why, the build, and what comes next.</p> <div class="blog-tags mt-3"> <span class="badge rounded-pill text-bg-dark me-2">Chrome Extension</span><span class="badge rounded-pill text-bg-dark me-2">1.0.0</span><span class="badge rounded-pill text-bg-dark me-2">Regex</span><span class="badge rounded-pill text-bg-dark me-2">JavaScript</span><span class="badge rounded-pill text-bg-dark me-2">LLM</span><span class="badge rounded-pill text-bg-dark me-2">Json</span> </div> </header> <section class="blog-article-wrap flex-grow-1"> <article class="blog-article">  <h2 id="introduction">Introduction</h2>
+<p>Sometimes you’re browsing a page and you want everything on it — every PDF link, every image
+from a specific domain, every video URL — without opening DevTools or writing a scraper.
+That’s what this extension is for.</p>
+<p>It started as a personal tool for manual browsing and bulk collection. Type a regex, hit
+extract, get a clean filtered list of links, images, or videos you can download or save.</p>
+<p>The LLM angle came later, almost by accident. The JSON export format turned out to be
+exactly what you’d want to paste into a model prompt — structured, typed, with page context
+included. That’s a nice bonus, but it’s not why the extension exists.</p>
+<h2 id="why-build-the-extension">Why build the extension</h2>
+<p>The idea came from a simple frustration. When I’m browsing I often want to bulk-collect
+something from a page — all the download links, all the images from a specific source, all
+the external URLs — and there’s no good lightweight tool for it. DevTools works but it’s
+overkill and verbose. Writing a one-off script works but takes time.</p>
+<p>What I wanted was a popup: type a pattern, see matching assets, grab what I need. No server,
+no authentication, no data leaving the browser.</p>
+<p>Building it as a Chrome extension was the obvious fit. It runs entirely client-side, has
+direct access to the page DOM, and stays out of the way until you need it.</p>
+<h2 id="initial-design">Initial Design</h2>
+<p>The extension has three files at its core: manifest.json, popup.html, and popup.js.
+Manifest (MV3)</p>
+<p>The extension uses Manifest V3, Chrome’s current extension standard. The only permissions
+required are activeTab — which grants temporary access to the current tab when the user
+opens the popup — and scripting, which allows injecting the extraction function into the
+page context. No broad host permissions, no background data collection.</p>
+<p><b>Extraction logic</b></p>
+<p>The core of the extension is a single function, extractPageAssets, that gets injected into
+the active tab via chrome.scripting.executeScript. It queries the DOM for three asset types:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>&#x3C;a href> — links, with their visible text trimmed to 50 characters</span></span>
+<span class="line"><span>&#x3C;img src> — images, with alt text carried through</span></span>
+<span class="line"><span>&#x3C;video> and child &#x3C;source> elements — since most modern players put the real URL</span></span>
+<span class="line"><span>on a &#x3C;source> tag rather than the &#x3C;video> element itself</span></span></code></pre>
+<p>All three are filtered by the user’s regex pattern, deduplicated by URL, and returned as
+a structured payload with the page title, source URL, and a timestamp.</p>
+<p><b>Why regex?</b></p>
+<p>Regex gives you precision without a UI for every use case. Want all YouTube links? <code>youtube.com</code>.
+Want only PDFs? <code>\.pdf</code>. Want links from a specific subdomain? You write the pattern. It keeps
+the tool small and hands control to the user — which also makes it a natural pairing with an LLM,
+since you can ask the model to write the pattern for you if you’re unsure.</p>
+<p>If you’ve never written a regex before, <a href="https://www.regex101.com">regex101.com</a>
+is the best place to start — paste a pattern and some test URLs and it explains exactly what
+each part does. Make sure the flavor is set to JavaScript, which is what the extension uses.</p>
+<p><b>Export formats </b></p>
+<p>Results can be exported as JSON (structured, with full metadata) or Markdown (a clean linked
+list, useful for dropping straight into a document or LLM prompt). Both are generated entirely
+in the browser using a blob URL — no server involved, no upload.</p>
+<h2 id="usage-instructions">Usage Instructions</h2>
+<p><b>For everyday users</b></p>
+<ol>
+<li>Install the extension from the Chrome Web Store</li>
+<li>Navigate to any page you want to extract from</li>
+<li>Click the extension icon in your toolbar</li>
+<li>Type a pattern into the regex field — for example, youtube.com to find YouTube links, or leave it broad with . to match everything</li>
+<li>Click Find Links</li>
+<li>Check or uncheck individual results, use Select All / Deselect All as needed</li>
+<li>Choose your export format (JSON or Markdown) and which asset types to include</li>
+<li>Click Download</li>
+</ol>
+<p><b>For developers using it as an LLM feed</b></p>
+<p>The JSON export is designed to be pasted directly into a model prompt. It includes the source
+URL, page title, timestamp, and a typed array of items — each with a url, type, and either
+text (for links) or alt / poster (for images and videos). A prompt like:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Here is a JSON list of links extracted from a documentation page. </span></span>
+<span class="line"><span>Identify which ones are likely API reference pages versus guides.</span></span></code></pre>
+<p>…works well out of the box with the exported format. The Markdown export is better suited for
+summarisation tasks or when you want the model to reason about link text rather than raw URLs.</p>
+<h2 id="future-plans">Future plans</h2>
+<p>A few things on the roadmap:</p>
+<ul>
+<li><b>Right-click context menu</b> — right-clicking a link or image on any page will pre-fill
+the regex field with a pattern derived from that URL, so you can immediately find similar assets</li>
+<li><b>Regex history</b> — remember the last few patterns used, selectable from a dropdown</li>
+<li><b>CSV export</b> — a third format option for tabular workflows and spreadsheet tools</li>
+<li><b>Pattern library</b> — a small set of one-click presets for common cases (PDFs, images,
+YouTube, external links)</li>
+</ul>
+<h2 id="closing">Closing</h2>
+<p>The extension is small by design. It does one thing — gets assets off a page fast — and
+stays out of your way otherwise. If you regularly find yourself manually hunting down links
+or bulk-saving resources while browsing, it’s worth a try. And if you happen to use an LLM
+for content work, the export format will slot straight in.</p>
+<p>The full source is available on <a href="https://www.github.com/ACSTechDev/Regex-Link-Extractor">GitHub.com</a>. If you run into a bug or have a feature request,
+open an issue — I read them.</p>  </article> </section>  </main> <footer id="site-footer" class="bg-body mt-auto" data-bs-theme="dark"> <div class="container py-4 py-lg-5"> <div class="row text-center text-md-start gy-4"> <!-- Column 1: Brand / Copyright --> <div class="col-12 col-md-4 d-flex flex-column align-items-center align-items-md-start justify-content-center"> <p class="fw-semibold mb-1">ACSTechnology</p> <p class="text-body-secondary mb-0 small">Built with curiosity and caffeine</p> <p class="text-body-secondary mb-0 small">&copy; 2026</p> </div> <!-- Column 2: Resources --> <div class="col-12 col-md-4 d-flex flex-column align-items-center align-items-md-start"> <small class="text-uppercase text-body-secondary mb-2">Resources</small> <ul class="list-unstyled mb-0"> <li class="mb-1"><a class="link-body-emphasis text-decoration-none" href="/faq/">FAQ</a></li> <li class="mb-1"><a class="link-body-emphasis text-decoration-none" href="/privacy/">Privacy</a></li> <li><a class="link-body-emphasis text-decoration-none" href="/terms/">Terms</a></li> </ul> </div> <!-- Column 3: Development --> <div class="col-12 col-md-4 d-flex flex-column align-items-center align-items-md-start"> <small class="text-uppercase text-body-secondary mb-2">Development</small> <ul class="list-unstyled mb-0"> <li class="mb-1"><a class="text-decoration-none" href="https://git.acstech.dev">Gitea</a></li> <li class="mb-1"><a class="text-decoration-none" href="https://github.com/ACSTechDev">GitHub</a></li> <li class="mb-1"><a class="text-decoration-none" href="https://www.linkedin.com/company/acstechdev">LinkedIn (Company)</a></li> <li><a class="text-decoration-none" href="https://www.linkedin.com/in/andrew-chiang-so/">LinkedIn (Founder)</a></li> </ul> </div> </div> </div> </footer> <script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.GtM1sxkV.js"></script> </body> </html>
